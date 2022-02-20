@@ -35,8 +35,8 @@ class GetExperimentData:
 
         # MOH
         self.moh_formatted = None
-        self.moh_formatted_test = None
         self.moh_formatted_train = None
+        self.moh_formatted_test = None
         self.moh_formatted_val = None
 
         # MOH X
@@ -51,15 +51,15 @@ class GetExperimentData:
 
         # VUA
         self.vua_formatted = None
-        self.vua_formatted_test = None
         self.vua_formatted_train = None
         self.vua_formatted_train_augmented = None
         self.vua_formatted_train_noVAL = None
+        self.vua_formatted_test = None
         self.vua_formatted_val = None
 
         # VUA sequence
-        self.vua_seq_formatted_test = None
         self.vua_seq_formatted_train = None
+        self.vua_seq_formatted_test = None
         self.vua_seq_formatted_val = None
 
     def read_moh_data(self, to_pandas=False):
@@ -69,38 +69,120 @@ class GetExperimentData:
         :param to_pandas: if true, data should be DataFrame, else list
         :return: NA
         """
-        self.moh_formatted, nrow = self.read_experiment_file(MOH, "{}_formatted.csv".format(MOH), to_pandas)
-        print(f"{MOH} formatted nrow: {nrow}")
+        data_var = MOH
 
-        self.moh_formatted_test, nrow = self.read_experiment_file(MOH, "{}_formatted_test.csv".format(MOH), to_pandas)
-        print(f"{MOH} test nrow: {nrow}")
+        self.moh_formatted, nrow = self.read_experiment_file(
+            data_var, "{}_formatted.csv".format(data_var), to_pandas)
+        print(f"{data_var} formatted nrow: {nrow}")
 
-        self.moh_formatted_train, nrow = self.read_experiment_file(MOH, "{}_formatted_train.csv".format(MOH), to_pandas)
-        print(f"{MOH} train nrow: {nrow}")
+        self.moh_formatted_train, nrow = self.read_experiment_file(
+            data_var, "{}_formatted_train.csv".format(data_var), to_pandas)
+        print(f"{data_var} train nrow: {nrow}")
 
-        self.moh_formatted_val, nrow = self.read_experiment_file(MOH, "{}_formatted_val.csv".format(MOH), to_pandas)
-        print(f"{MOH} val nrow: {nrow}")
+        self.moh_formatted_test, nrow = self.read_experiment_file(
+            data_var, "{}_formatted_test.csv".format(data_var), to_pandas)
+        print(f"{data_var} test nrow: {nrow}")
 
-    def read_moh_x_data(self, pandas=False):
+        self.moh_formatted_val, nrow = self.read_experiment_file(
+            data_var, "{}_formatted_val.csv".format(data_var), to_pandas)
+        print(f"{data_var} val nrow: {nrow}")
+
+    def read_moh_x_data(self, to_pandas=False):
         """
         Read data into public instance variables
 
-        :param pandas: if true, data should be DataFrame, else list
+        :param to_pandas: if true, data should be DataFrame, else list
         :return: NA
         """
-        pass
+        data_var = MOH_X
+        self.moh_x_formatted_svo, nrow = self.read_experiment_file(
+            data_var, "{}_formatted_svo.csv".format(data_var), to_pandas)
+        print(f"{data_var} formatted svo nrow: {nrow}")
 
-    def read_trofi_data(self, pandas=False):
-        pass
+        self.moh_x_formatted_svo_cleaned, nrow = self.read_experiment_file(
+            data_var, "{}_formatted_svo_cleaned.csv".format(data_var), to_pandas)
+        print(f"{data_var} formatted svo cleaned nrow: {nrow}")
 
-    def read_trofi_x_data(self, pandas=False):
-        pass
+    def read_trofi_data(self, to_pandas=False):
+        """
+        Read data into public instance variables
 
-    def read_vua_data(self, pandas=False):
-        pass
+        :param to_pandas: if true, data should be DataFrame, else list
+        :return: NA
+        """
+        data_var = TROFI
+        self.trofi_formatted_all, nrow = self.read_experiment_file(
+            data_var, "{}_formatted_all3737.csv".format(data_var), to_pandas)
+        print(f"{data_var} formatted_all3737 nrow: {nrow}")
 
-    def read_vua_seq(self, pandas=False):
-        pass
+    def read_trofi_x_data(self, to_pandas=False):
+        """
+        Read data into public instance variables
+
+        :param to_pandas: if true, data should be DataFrame, else list
+        :return: NA
+        """
+        data_var = TROFI_X
+        self.trofi_x_formatted_svo, nrow = self.read_experiment_file(
+            data_var, "{}_formatted_svo.csv".format(data_var), to_pandas)
+        print(f"{data_var} formatted svo nrow: {nrow}")
+
+    def read_vua_data(self, to_pandas=False):
+        """
+        Read data into public instance variables
+
+        :param to_pandas: if true, data should be DataFrame, else list
+        :return: NA
+        """
+        data_var = VUA
+        encoding = 'latin-1'
+
+        self.vua_formatted, nrow = self.read_experiment_file(
+            data_var, "{}_formatted.csv".format(data_var), to_pandas, encoding)
+        print(f"{data_var} formatted nrow: {nrow}")
+
+        self.vua_formatted_train, nrow = self.read_experiment_file(
+            data_var, "{}_formatted_train.csv".format(data_var), to_pandas, encoding)
+        print(f"{data_var} train nrow: {nrow}")
+
+        self.vua_formatted_train_augmented, nrow = self.read_experiment_file(
+            data_var, "{}_formatted_train_augmented.csv".format(data_var), to_pandas, encoding)
+        print(f"{data_var} train augmented nrow: {nrow}")
+
+        self.vua_formatted_train_noVAL, nrow = self.read_experiment_file(
+            data_var, "{}_formatted_train_noVAL.csv".format(data_var), to_pandas, encoding)
+        print(f"{data_var} train no val nrow: {nrow}")
+
+        self.vua_formatted_test, nrow = self.read_experiment_file(
+            data_var, "{}_formatted_test.csv".format(data_var), to_pandas, encoding)
+        print(f"{data_var} test nrow: {nrow}")
+
+        self.vua_formatted_val, nrow = self.read_experiment_file(
+            data_var, "{}_formatted_val.csv".format(data_var), to_pandas, encoding)
+        print(f"{data_var} val nrow: {nrow}")
+
+    def read_vua_seq_data(self, to_pandas=False):
+        """
+        Read data into public instance variables
+
+        :param to_pandas: if true, data should be DataFrame, else list
+        :return: NA
+        """
+        folder = "VUAsequence"
+        data_var = VUA_SEQ
+        encoding = 'latin-1'
+
+        self.vua_seq_formatted_train, nrow = self.read_experiment_file(
+            folder, "{}_formatted_train.csv".format(data_var), to_pandas, encoding)
+        print(f"{data_var} train nrow: {nrow}")
+
+        self.vua_seq_formatted_test, nrow = self.read_experiment_file(
+            folder, "{}_formatted_test.csv".format(data_var), to_pandas, encoding)
+        print(f"{data_var} test nrow: {nrow}")
+
+        self.vua_seq_formatted_val, nrow = self.read_experiment_file(
+            folder, "{}_formatted_val.csv".format(data_var), to_pandas, encoding)
+        print(f"{data_var} val nrow: {nrow}")
 
     def read_experiment_file(self, folder, filename, pandas, encoding=None):
         """
