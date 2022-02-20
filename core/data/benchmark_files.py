@@ -21,7 +21,7 @@ VUA_SEQ = "VUA_seq"
 #  set aside 10% of the training set as a development set.
 
 
-class GetExperimentData:
+class ExperimentData:
     """
     Attributes:
         there is an attribute for every file in the gao et all repo
