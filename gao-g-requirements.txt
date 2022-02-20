@@ -18,3 +18,4 @@ matplotlib
 ### Adding new requirements:
 jupyter
 tabulate
+pandas
