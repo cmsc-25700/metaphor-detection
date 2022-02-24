@@ -62,6 +62,20 @@ class ExperimentData:
         self.vua_seq_formatted_test = None
         self.vua_seq_formatted_val = None
 
+    def read_all_data(self, to_pandas = False):
+        """
+        Read all datasets
+        :param to_pandas: if true, data should be DataFrame, else list
+        :return: NA
+        """
+
+        self.read_moh_data(to_pandas)
+        self.read_moh_x_data(to_pandas)
+        self.read_trofi_data(to_pandas)
+        self.read_trofi_x_data(to_pandas)
+        self.read_vua_data(to_pandas)
+        self.read_vua_seq_data(to_pandas)
+
     def read_moh_data(self, to_pandas=False):
         """
         Read data into public instance variables
