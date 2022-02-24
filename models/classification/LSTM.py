@@ -5,6 +5,7 @@ import torch.nn as nn
 import torch.nn.functional as torch_function
 from allennlp.nn.util import sort_batch_by_length, last_dim_softmax
 
+
 class LSTM_Classifier(nn.Module):
 
     def __init__(self, embedding_size, hidden_size, num_layers,
@@ -35,8 +36,7 @@ class LSTM_Classifier(nn.Module):
         #dropout to embedding
         embedding = self.dropout(inputs)
         #sort the input by decreasing order of length.
-        input_sorted, lengths_sorted, 
-        unsorted_indices_input, _ = sort_batch_by_length(embedding, lengths)
+        input_sorted, lengths_sorted, unsorted_indices_input, _ = sort_batch_by_length(embedding, lengths)
         #pack input
         packed_input = pack_padded_sequence(input_sorted, sorted_lengths.data.tolist(), batch_first = True)
         packed_output, _ = self.LSTM(packed_input)
@@ -47,7 +47,7 @@ class LSTM_Classifier(nn.Module):
 
         ##attention
         attentions = self.attention_layer(unpacked_output).squeeze(dim = -1)
-        mask = (attention != 0)
+        mask = (attentions != 0)
         #if using GPU
         if inputs.is_cuda:
             mask = mask.type(torch.cuda.FloatTensor)
@@ -61,7 +61,7 @@ class LSTM_Classifier(nn.Module):
         ##linear layer
         input_encoded = self.dropout(input_encoded)
         output_final = self.output(input_encoded)
-        output_final = function.log_softmax(output_final, dim = -1)
+        output_final = torch_function.log_softmax(output_final, dim = -1)
 
         return output_final
 
