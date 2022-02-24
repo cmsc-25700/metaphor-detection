@@ -2,8 +2,11 @@
 Class containing LSTM Model 
 """
 import torch.nn as nn
+import torch
 import torch.nn.functional as torch_function
-from allennlp.nn.util import sort_batch_by_length, last_dim_softmax
+from allennlp.nn.util import sort_batch_by_length, masked_softmax
+from torch.nn.utils.rnn import pack_padded_sequence
+from torch.nn.utils.rnn import pad_packed_sequence
 
 
 class LSTM_Classifier(nn.Module):
@@ -38,7 +41,7 @@ class LSTM_Classifier(nn.Module):
         #sort the input by decreasing order of length.
         input_sorted, lengths_sorted, unsorted_indices_input, _ = sort_batch_by_length(embedding, lengths)
         #pack input
-        packed_input = pack_padded_sequence(input_sorted, sorted_lengths.data.tolist(), batch_first = True)
+        packed_input = pack_padded_sequence(input_sorted, lengths_sorted.data.tolist(), batch_first = True)
         packed_output, _ = self.LSTM(packed_input)
         #unpack output
         unpacked_output = pad_packed_sequence(packed_output, batch_first = True)
@@ -54,7 +57,7 @@ class LSTM_Classifier(nn.Module):
         else:
             mask = mask.type(torch.FloatTensor)
         #softmax for attention
-        softmax_attention = last_dim_softmax(attentions, mask).unsqueeze(dim = 1)
+        softmax_attention = masked_softmax(attentions, mask).unsqueeze(dim = 1)
         #matrix product of attention and the LSTM layer output
         input_encoded = torch.bmm(softmax_attention, output).squeeze(dim = 1)
 
