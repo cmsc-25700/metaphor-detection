@@ -37,7 +37,8 @@ class LexicalBaseline():
 #MOH-X preprocessing
 def process_moh_x_to_tuple(dataset):
     """
-    Function for putting MOH_X data in correct format for lexical baseline model
+    Function for putting MOH_X data in correct format for lexical
+    baseline model
 
     Input
         dataset: list of lists obtained from ExperimentData class
@@ -52,3 +53,21 @@ def process_moh_x_to_tuple(dataset):
 
     return moh_x_list
 
+#TROFI preprocessing
+def process_trofi_to_tuple(dataset):
+    """
+    Function for putting TroFi data in correct format for lexical
+    baseline model
+
+    Input
+        dataset: list of lists obtained from ExperimentData class
+                trofi_formatted_all attribute
+    Output
+        trofi_list: list of tuples of form (verb, label)
+    """
+
+    trofi_list = []
+    for line in dataset:
+        trofi_list.append((line[0],line[3]))
+
+    return trofi_list
