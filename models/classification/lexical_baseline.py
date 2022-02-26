@@ -13,6 +13,12 @@ class LexicalBaseline():
         self.predictions = None
         self.labels = None
 
+        #evaluation metrics
+        self.accuracy = None
+        self.precision = None
+        self.recall = None
+        self.met_f1 = None
+
 
     def create_CLS_Model(self, dataset):
 
@@ -52,7 +58,7 @@ class LexicalBaseline():
         labels = []
         for verb, label in dataset:
             labels.append(int(label))
-            if verb in model:
+            if verb in self.CLS_model:
                 predictions.append(1)
             else:
                 predictions.append(0)
@@ -82,12 +88,17 @@ class LexicalBaseline():
             confusion_matrix[predictions[i], labels[i]] += 1
 
         assert(num_correct == confusion_matrix[0, 0] + confusion_matrix[1, 1])
-        accuracy = 100 * num_correct / total_examples
-        precision = 100 * confusion_matrix[1, 1] / np.sum(confusion_matrix[1])
-        recall = 100 * confusion_matrix[1, 1] / np.sum(confusion_matrix[:, 1])
-        met_f1 = 2 * precision * recall / (precision + recall)
+        self.accuracy = 100 * num_correct / total_examples
+        self.precision = 100 * confusion_matrix[1, 1] / np.sum(confusion_matrix[1])
+        self.recall = 100 * confusion_matrix[1, 1] / np.sum(confusion_matrix[:, 1])
+        self.met_f1 = 2 * self.precision * self.recall / (self.precision + self.recall)
 
-        return precision, recall, met_f1, 
+        print(f"""
+                Accuracy: {self.accuracy}
+                Precision: {self.precision}
+                Recall: {self.recall}
+                F1: {self.met_f1}
+                """)
          
 
 
