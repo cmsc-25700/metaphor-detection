@@ -44,14 +44,14 @@ def process_moh_x_to_tuple(dataset):
         dataset: list of lists obtained from ExperimentData class
                 moh_x_formatted_svo attribute
     Output
-        moh_x_list: list of tuples of form (verb, label)
+        moh_x_tpl_list: list of tuples of form (verb, label)
     """
 
-    moh_x_list = []
+    moh_x_tpl_list = []
     for line in dataset:
-        moh_x_list.append((line[2],line[5]))
+        moh_x_tpl_list.append((line[2],line[5]))
 
-    return moh_x_list
+    return moh_x_tpl_list
 
 #TROFI preprocessing
 def process_trofi_to_tuple(dataset):
@@ -63,11 +63,31 @@ def process_trofi_to_tuple(dataset):
         dataset: list of lists obtained from ExperimentData class
                 trofi_formatted_all attribute
     Output
-        trofi_list: list of tuples of form (verb, label)
+        trofi_tpl_list: list of tuples of form (verb, label)
     """
 
-    trofi_list = []
+    trofi_tpl_list = []
     for line in dataset:
-        trofi_list.append((line[0],line[3]))
+        trofi_tpl_list.append((line[0],line[3]))
 
-    return trofi_list
+    return trofi_tpl_list
+
+
+# VUA preprocessing
+def process_vua_to_tuple(dataset):
+    """
+    Function for putting VUA data in correct format for lexical
+    baseline model
+
+    Input
+        dataset: list of lists obtained from ExperimentData class
+                vua_formatted_{} attribute
+    Output
+        vua_tpl_list: list of tuples of form (verb, label)
+    """
+
+    vua_tpl_list = []
+    for line in dataset:
+        vua_tpl_list.append((line[2],line[5]))
+
+    return vua_tpl_list
