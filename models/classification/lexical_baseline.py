@@ -1,3 +1,6 @@
+import numpy as np
+
+
 class LexicalBaseline():
 
     """
@@ -7,13 +10,15 @@ class LexicalBaseline():
     def __init__(self):
         print("Initializing new Lexical Baseline model")
         self.CLS_model = None
+        self.predictions = None
+        self.labels = None
 
 
     def create_CLS_Model(self, dataset):
 
         """
         :param dataset: list of tuples of form ("verb","label")
-        :return: a dictionary: verb --> number that shows the probability
+        :self.CLS_model: a dictionary: verb --> number that shows the probability
                     of being metaphor
                     dictionary only contains verbs that are more likely to
                     be metaphors
@@ -34,6 +39,56 @@ class LexicalBaseline():
                 final_model[key] = prob
 
         self.CLS_model = final_model
+
+
+    def CLS_predict(self, dataset):
+        """
+        :param dataset: a list of verb-label pairs
+        outcomes
+        :self.predictions: list of predictions
+        :self.labels: list of labels
+        """
+        predictions = []
+        labels = []
+        for verb, label in dataset:
+            labels.append(int(label))
+            if verb in model:
+                predictions.append(1)
+            else:
+                predictions.append(0)
+
+        self.predictions = predictions
+        self.labels = labels
+        #return evaluate(predictions, labels)
+
+
+    def evaluate(self):
+        """
+        :param predictions: a list
+        :param labels: a list
+        :return: 4 numbers: precision, recall, met_f1, accuracy
+        """
+        # Set model to eval mode, which turns off dropout.
+        predictions = self.predictions
+        labels = self.labels
+        assert(len(predictions) == len(labels))
+        total_examples = len(predictions)
+
+        num_correct = 0
+        confusion_matrix = np.zeros((2, 2))
+        for i in range(total_examples):
+            if predictions[i] == labels[i]:
+                num_correct += 1
+            confusion_matrix[predictions[i], labels[i]] += 1
+
+        assert(num_correct == confusion_matrix[0, 0] + confusion_matrix[1, 1])
+        accuracy = 100 * num_correct / total_examples
+        precision = 100 * confusion_matrix[1, 1] / np.sum(confusion_matrix[1])
+        recall = 100 * confusion_matrix[1, 1] / np.sum(confusion_matrix[:, 1])
+        met_f1 = 2 * precision * recall / (precision + recall)
+
+        return precision, recall, met_f1, 
+         
 
 
 
