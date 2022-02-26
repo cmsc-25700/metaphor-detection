@@ -9,18 +9,22 @@ class LexicalBaseline():
         self.CLS_model = None
 
 
-    def create_CLS_Model(dataset):
+    def create_CLS_Model(self, dataset):
 
         """
         :param dataset: list of tuples of form ("verb","label")
-        :return: a dictioanry: verb --> number that shows the probability of being metaphor
+        :return: a dictionary: verb --> number that shows the probability
+                    of being metaphor
+                    dictionary only contains verbs that are more likely to
+                    be metaphors
+
         """
         model = {}
         for verb, label in dataset:
             if verb in model:
-                model[verb].append(label)
+                model[verb].append(int(label))
             else:
-                model[verb] = [label]
+                model[verb] = [int(label)]
 
         final_model = {}
         for key in model.keys():
@@ -30,7 +34,6 @@ class LexicalBaseline():
                 final_model[key] = prob
 
         self.CLS_model = final_model
-        return final_model
 
 
 
