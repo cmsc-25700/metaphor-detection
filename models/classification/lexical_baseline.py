@@ -186,23 +186,23 @@ def lex_baseline_CV(dataset, num_folds=10,rand_seed=3):
     # k fold
     PRFA_list = []
     for i in range(num_folds):
-    raw_train_set = []
-    raw_val_set = []
-    # separate training and validation data
-    for j in range(num_folds):
-        if j != i:
-            raw_train_set.extend(folds[j])
-        else:
-            raw_val_set = folds[j]
-    # make model, predict, and evaluate
-    model = lb.LexicalBaseline()
-    model.create_CLS_Model(raw_train_set)
-    model.CLS_predict(raw_val_set)
-    model.evaluate()
-    PRFA_list.append([model.precision,
-                      model.recall,
-                      model.met_f1,
-                      model.accuracy])
+        raw_train_set = []
+        raw_val_set = []
+         # separate training and validation data
+        for j in range(num_folds):
+            if j != i:
+                raw_train_set.extend(folds[j])
+            else:
+                raw_val_set = folds[j]
+        # make model, predict, and evaluate
+        model = lb.LexicalBaseline()
+        model.create_CLS_Model(raw_train_set)
+        model.CLS_predict(raw_val_set)
+        model.evaluate()
+        PRFA_list.append([model.precision,
+                        model.recall,
+                        model.met_f1,
+                        model.accuracy])
 
     PRFA = np.array(PRFA_list)
     return PRFA
