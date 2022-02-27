@@ -1,3 +1,4 @@
+from importlib.util import module_for_loader
 import numpy as np
 
 
@@ -160,3 +161,48 @@ def process_vua_to_tuple(dataset):
         vua_tpl_list.append((line[2],line[5]))
 
     return vua_tpl_list
+
+
+
+def lex_baseline_CV(dataset, num_folds=10,rand_seed=3):
+    """
+    Perform k-fold cross validation with the lexical baseline
+    model on input data
+    Input
+        dataset: list of tuples of the form ('verb', 'label)
+    """
+    
+    # upside down floor division
+    lines_per_fold = -(len(dataset) // -10)
+
+    random.seed(rand_seed)
+    random.shuffle(dataset)
+
+    # prepare 10 folds
+    folds = []
+    for i in range(num_folds):
+        folds.append(dataset[i*lines_per_fold: (i+1)*lines_per_fold])
+
+    # k fold
+    PRFA_list = []
+    for i in range(num_folds):
+    raw_train_set = []
+    raw_val_set = []
+    # separate training and validation data
+    for j in range(num_folds):
+        if j != i:
+            raw_train_set.extend(folds[j])
+        else:
+            raw_val_set = folds[j]
+    # make model, predict, and evaluate
+    model = lb.LexicalBaseline()
+    model.create_CLS_Model(raw_train_set)
+    model.CLS_predict(raw_val_set)
+    model.evaluate()
+    PRFA_list.append([model.precision,
+                      model.recall,
+                      model.met_f1,
+                      model.accuracy])
+
+    PRFA = np.array(PRFA_list)
+    return PRFA
