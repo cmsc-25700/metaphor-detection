@@ -196,7 +196,7 @@ def lex_baseline_CV(dataset, num_folds=10,rand_seed=3):
             else:
                 raw_val_set = folds[j]
         # make model, predict, and evaluate
-        model = lb.LexicalBaseline()
+        model = LexicalBaseline()
         model.create_CLS_Model(raw_train_set)
         model.CLS_predict(raw_val_set)
         model.evaluate()
