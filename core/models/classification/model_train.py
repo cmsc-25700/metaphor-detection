@@ -1,14 +1,12 @@
-import matplotlib.pyplot as plt
-import numpy as np
-import math
-from models.classification.LSTM import LSTM_Classifier
-from core.gao_files.classification.util import *
-import torch.optim as optim
 import time
-from torch.autograd import Variable
+# import torch.nn as nn
+import torch.optim as optim
+# from torch.autograd import Variable
 from torch.utils.data import DataLoader
-import torch.nn as nn
 import matplotlib
+from core.models.classification.LSTM import LSTM_Classifier
+from core.gao_files.classification.util import *
+
 
 matplotlib.use('Agg')  # to avoid the error: _tkinter.TclError: no display name and no $DISPLAY environment variable
 # matplotlib.use('tkagg')  # to display the graph on remote server
