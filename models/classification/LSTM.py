@@ -7,8 +7,7 @@ import torch.nn.functional as torch_function
 from allennlp.nn.util import sort_batch_by_length, masked_softmax
 from torch.nn.utils.rnn import pack_padded_sequence
 from torch.nn.utils.rnn import pad_packed_sequence
-from core.gao_files.classification.util_2 import *
-
+from core.gao_files.classification.util import *
 
 class LSTM_Classifier(nn.Module):
 

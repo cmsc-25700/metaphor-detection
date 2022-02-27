@@ -1,8 +1,8 @@
 import matplotlib.pyplot as plt
 import numpy as np
-
+import math
 from models.classification.LSTM import LSTM_Classifier
-from core.gao_files.classification.util_2 import *
+from core.gao_files.classification.util import *
 import torch.optim as optim
 import time
 from torch.autograd import Variable
@@ -150,6 +150,10 @@ def train_kfold(raw_data, num_suffix_tag, learning_rate=0.01,
     # ten_folds is a list of 10 tuples, each tuple is (list_of_embedded_sentences, list_of_corresponding_labels)
     k_fold = [(sentences[i * 65: (i + 1) * 65], labels[i * 65: (i + 1) * 65]) for i in range(10)]
     optimal_f1s = []
+    accuracies = []
+    precisions = []
+    recalls = []
+
 
     print("### BATCHING DATA ####")
 
@@ -187,6 +191,8 @@ def train_kfold(raw_data, num_suffix_tag, learning_rate=0.01,
         val_loss = []
         training_f1 = []
         val_f1 = []
+
+        
         # A counter for the number of gradient updates
         iterations = 0
         for epoch in range(NUM_EPOCHS):
@@ -220,7 +226,11 @@ def train_kfold(raw_data, num_suffix_tag, learning_rate=0.01,
                     # torch.save(lstm_obj, filename)
                     avg_eval_loss, eval_accuracy, precision, recall, f1, fus_f1 = evaluate(train_dataloader, lstm_obj,
                                                                                            nll_criterion, using_GPU)
-                    if f1 != np.nan:
+                    accuracies.append(eval_accuracy.item())
+                    if str(precision) != "nan":
+                      precisions.append(precision)
+                    recalls.append(recall)
+                    if str(max(val_f1)) != "nan":
                         training_loss.append(avg_eval_loss)
                         training_f1.append(f1)
                         print(
@@ -229,8 +239,13 @@ def train_kfold(raw_data, num_suffix_tag, learning_rate=0.01,
                                 .format(iterations, avg_eval_loss, eval_accuracy, precision, recall, f1, fus_f1))
         print("###Training done for fold {}###".format(i))
 
-        if val_f1 != np.nan:
+        if str(max(val_f1)) != "nan":
             optimal_f1s.append(max(val_f1))
 
         print('F1 on MOH-X by 10-fold = ', optimal_f1s)
         print('F1 on MOH-X = ', np.mean(np.array(optimal_f1s)))
+        print('precisions on MOH-X = ', np.mean(np.array(precisions)))
+        print('recalls on MOH-X = ', np.mean(np.array(recalls)))
+        print('accuracies on MOH-X = ', np.mean(np.array(accuracies)))
+
+        
