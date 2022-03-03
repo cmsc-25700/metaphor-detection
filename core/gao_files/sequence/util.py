@@ -49,8 +49,10 @@ def index_sequence(item2idx, seq):
     assert (len(seq) == len(embed))
     return embed
 
-
-def get_embedding_matrix(word2idx, idx2word, normalization=False):
+"""
+Modifying this function to include path as an argument
+"""
+def get_embedding_matrix(glove_path, word2idx, idx2word, normalization=False):
     """
     assume padding index is 0
 
@@ -61,7 +63,7 @@ def get_embedding_matrix(word2idx, idx2word, normalization=False):
     """
     # Load the GloVe vectors into a dictionary, keeping only words in vocab
     embedding_dim = 300
-    glove_path = "../glove/glove840B300d.txt"
+    # glove_path = "../glove/glove840B300d.txt" # don't hardcore path
     glove_vectors = {}
     with open(glove_path) as glove_file:
         for line in tqdm(glove_file, total=get_num_lines(glove_path)):
