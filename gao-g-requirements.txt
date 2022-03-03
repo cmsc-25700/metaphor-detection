@@ -19,3 +19,4 @@ matplotlib
 jupyter
 tabulate
 pandas
+google-cloud-storage
