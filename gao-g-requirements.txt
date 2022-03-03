@@ -16,6 +16,6 @@ allennlp
 matplotlib
 
 ### Adding new requirements:
-jupyter
-tabulate
-pandas
+# jupyter
+# tabulate
+# pandas
