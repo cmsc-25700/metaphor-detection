@@ -2,6 +2,7 @@
 resources/metaphor-in-context/*
 resources/glove/*
 resources/elmo/*
+__MACOSX
 
 **/.DS_Store
 
