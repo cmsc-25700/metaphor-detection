@@ -233,11 +233,14 @@ def evaluate(idx2pos, evaluation_dataloader, model, criterion, using_GPU):
         total_examples += eval_lengths.size(0)
         confusion_matrix = update_confusion_matrix(confusion_matrix, predicted_labels, eval_labels.data, eval_pos_seqs)
 
+    print("-"*30) # ci
+    print("total_eval_loss.shape", total_eval_loss.shape) # ci
     average_eval_loss = total_eval_loss / evaluation_dataloader.__len__()
 
     # Set the model back to train mode, which activates dropout again.
     model.train()
-    return average_eval_loss.data[0], print_info(confusion_matrix, idx2pos)
+    # return average_eval_loss.data[0], print_info(confusion_matrix, idx2pos) # causing an index error for 0-dim tensor
+    return average_eval_loss.data, print_info(confusion_matrix, idx2pos)
 
 
 def update_confusion_matrix(matrix, predictions, labels, pos_seqs):
