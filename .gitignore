@@ -1,6 +1,7 @@
 # data resources
 resources/metaphor-in-context/*
 resources/glove/*
+resources/elmo/*
 
 **/.DS_Store
 
