@@ -355,8 +355,10 @@ def print_info(matrix, idx2pos):
         result.append([precision, recall, f1, accuracy])
     return np.array(result)
 
-
-def get_performance_VUAverb_val(write=False):
+"""
+Modifying this function to take a path to data directory
+"""
+def get_performance_VUAverb_val(data_path, write=False):
     """
     Prints the performance of LSTM sequence model on VUA-verb validation set
     :param: write: a boolean to indicate write or not
@@ -364,7 +366,7 @@ def get_performance_VUAverb_val(write=False):
     """
     # get the VUA-ver validation set
     ID_verbidx_label = []  # ID tuple, verb_idx, label 1 or 0
-    with open('../data/VUA/VUA_formatted_val.csv', encoding='latin-1') as f:
+    with open(data_path + 'VUA/VUA_formatted_val.csv', encoding='latin-1') as f:
         lines = csv.reader(f)
         next(lines)
         for line in lines:
@@ -412,8 +414,10 @@ def get_performance_VUAverb_val(write=False):
     return [precision, recall, f1, accuracy]
 
 
-
-def get_performance_VUAverb_test():
+"""
+Modifying this function to take a path to data directory
+"""
+def get_performance_VUAverb_test(data_path):
     """
     Similar treatment as get_performance_VUAverb_val
     Read the VUA-verb test data, and the VUA-sequence test data.
@@ -425,7 +429,7 @@ def get_performance_VUAverb_test():
     """
     # get the VUA-ver test set
     ID_verbidx_label = []  # ID tuple, verb_idx, label 1 or 0
-    with open('../data/VUA/VUA_formatted_test.csv', encoding='latin-1') as f:
+    with open(data_path + 'VUA/VUA_formatted_test.csv', encoding='latin-1') as f:
         lines = csv.reader(f)
         next(lines)
         for line in lines:
@@ -473,7 +477,7 @@ def get_performance_VUAverb_test():
     return avg_performance.mean(0)
 
 
-def get_performance_VUA_test():
+def get_performance_VUA_test(data_path):
     """
     Read the VUA-sequence test data and predictions
     Prints the performance of LSTM sequence model on VUA-sequence test set based on genre
