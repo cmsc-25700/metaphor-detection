@@ -5,7 +5,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader
 import matplotlib
 from core.models.classification.LSTM import LSTM_Classifier
-from core.gao_files.classification.util_2 import *
+from core.gao_files.classification.util import *
 
 
 matplotlib.use('Agg')  # to avoid the error: _tkinter.TclError: no display name and no $DISPLAY environment variable

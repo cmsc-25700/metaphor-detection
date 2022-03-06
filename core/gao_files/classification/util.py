@@ -170,7 +170,6 @@ def evaluate(evaluation_dataloader, model, criterion, using_GPU):
     """
     # Set model to eval mode, which turns off dropout.
     model.eval()
-
     num_correct = 0
     total_examples = 0
     total_eval_loss = 0
@@ -187,7 +186,8 @@ def evaluate(evaluation_dataloader, model, criterion, using_GPU):
         predicted = model(eval_text, eval_lengths)
         # Calculate loss for this test batch. This is averaged, so multiply
         # by the number of examples in batch to get a total.
-        total_eval_loss += criterion(predicted, eval_labels).data[0] * eval_labels.size(0)
+        ### CHANGING HERE FROM .data[0] to .item()
+        total_eval_loss += criterion(predicted, eval_labels).item() * eval_labels.size(0)
         _, predicted_labels = torch.max(predicted.data, 1)
         total_examples += eval_labels.size(0)
         num_correct += torch.sum(predicted_labels == eval_labels.data)
