@@ -374,7 +374,7 @@ def get_performance_VUAverb_val(data_path, write=False):
 
     # get the prediction from LSTM sequence model
     ID2sen_labelseq = {}  # ID tuple --> [label_sequence]
-    with open('../predictions/vua_seq_predictions_LSTMsequence_vua.csv', encoding='latin-1') as f:
+    with open('predictions/vua_seq_predictions_LSTMsequence_vua.csv', encoding='latin-1') as f:
         lines = csv.reader(f)
         next(lines)
         for line in lines:
@@ -406,7 +406,7 @@ def get_performance_VUAverb_val(data_path, write=False):
         for i in range(len(predictions)):
             data[i + 1].append(predictions[i])
 
-        f = open('../predictions/vua_predictions_LSTMsequence_vua.csv', 'w')
+        f = open('predictions/vua_predictions_LSTMsequence_vua.csv', 'w')
         writer = csv.writer(f)
         writer.writerows(data)
         f.close()
@@ -437,7 +437,7 @@ def get_performance_VUAverb_test(data_path):
 
     # get the prediction from LSTM sequence model
     ID2sen_labelseq = {}  # ID tuple --> [genre, label_sequence]
-    with open('../predictions/vua_seq_test_predictions_LSTMsequence_vua.csv', encoding='latin-1') as f:
+    with open('predictions/vua_seq_test_predictions_LSTMsequence_vua.csv', encoding='latin-1') as f:
         # txt_id	sen_ix	sentence	label_seq	pos_seq	labeled_sentence	genre   predictions
         lines = csv.reader(f)
         next(lines)
@@ -487,7 +487,7 @@ def get_performance_VUA_test(data_path):
     """
     # get the prediction from LSTM sequence model
     ID2sen_labelseq = {}  # ID tuple --> [genre, label_sequence, pred_sequence]
-    with open('../predictions/vua_seq_test_predictions_LSTMsequence_vua.csv', encoding='latin-1') as f:
+    with open('predictions/vua_seq_test_predictions_LSTMsequence_vua.csv', encoding='latin-1') as f:
         # txt_id	sen_ix	sentence	label_seq	pos_seq	labeled_sentence	genre   predictions
         lines = csv.reader(f)
         next(lines)
