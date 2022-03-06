@@ -438,7 +438,7 @@ def get_performance_VUAverb_test(data_path, seq_test_pred):
     # get the prediction from LSTM sequence model
     ID2sen_labelseq = {}  # ID tuple --> [genre, label_sequence]
     for line in seq_test_pred[1:]:
-        ID2sen_labelseq[(line[0], line[1])] = [line[6], ast.literal_eval(line[7])]
+        ID2sen_labelseq[(line[0], line[1])] = [line[6], line[7]]
     # with open('/predictions/vua_seq_test_predictions_LSTMsequence_vua.csv', encoding='latin-1') as f:
     #     # txt_id	sen_ix	sentence	label_seq	pos_seq	labeled_sentence	genre   predictions
     #     lines = csv.reader(f)
