@@ -7,6 +7,7 @@ import csv
 from torch.utils.data import Dataset
 import torch.nn as nn
 from torch.autograd import Variable
+import pdb
 
 
 # Misc helper functions
@@ -479,7 +480,7 @@ def get_performance_VUAverb_test(data_path, seq_test_pred):
     return avg_performance.mean(0)
 
 
-def get_performance_VUA_test(data_path):
+def get_performance_VUA_test(data_path, seq_test_pred):
     """
     Read the VUA-sequence test data and predictions
     Prints the performance of LSTM sequence model on VUA-sequence test set based on genre
@@ -489,18 +490,21 @@ def get_performance_VUA_test(data_path):
     """
     # get the prediction from LSTM sequence model
     ID2sen_labelseq = {}  # ID tuple --> [genre, label_sequence, pred_sequence]
-    with open('predictions/vua_seq_test_predictions_LSTMsequence_vua.csv', encoding='latin-1') as f:
-        # txt_id	sen_ix	sentence	label_seq	pos_seq	labeled_sentence	genre   predictions
-        lines = csv.reader(f)
-        next(lines)
-        for line in lines:
-            ID2sen_labelseq[(line[0], line[1])] = [line[6], ast.literal_eval(line[3]), ast.literal_eval(line[7])]
+    for line in seq_test_pred[1:]:
+        ID2sen_labelseq[(line[0], line[1])] = [line[6], ast.literal_eval(line[3]), line[7]]
+    # with open('predictions/vua_seq_test_predictions_LSTMsequence_vua.csv', encoding='latin-1') as f:
+    #     # txt_id	sen_ix	sentence	label_seq	pos_seq	labeled_sentence	genre   predictions
+    #     lines = csv.reader(f)
+    #     next(lines)
+    #     for line in lines:
+    #         ID2sen_labelseq[(line[0], line[1])] = [line[6], ast.literal_eval(line[3]), ast.literal_eval(line[7])]
     # compute confusion_matrix
     genres = ['news', 'fiction', 'academic', 'conversation']
     confusion_matrix = np.zeros((4, 2, 2))
     for ID in ID2sen_labelseq:
         genre, label_sequence, pred_sequence = ID2sen_labelseq[ID]
         for i in range(len(label_sequence)):
+            #pdb.set_trace()
             pred = pred_sequence[i]
             label = label_sequence[i]
             genre_idx = genres.index(genre)
