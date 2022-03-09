@@ -386,7 +386,7 @@ def get_performance_VUAverb_val(data_path, write=False):
     :param: write: a boolean to indicate write or not
     :return:
     """
-    # get the VUA-ver validation set
+    # get the VUA-verb validation set
     ID_verbidx_label = []  # ID tuple, verb_idx, label 1 or 0
     with open(data_path + 'VUA/VUA_formatted_val.csv', encoding='latin-1') as f:
         lines = csv.reader(f)
@@ -437,10 +437,13 @@ def get_performance_VUAverb_val(data_path, write=False):
 
 
 """
-Modifying this function to take a path to data directory
-Also modifying it to return a dataframe containing the performance
-on the verb test regardless of genre
-as well as a dataframe containing the Macro-Averaged performance (over genre)
+Modifying this function to:
+  - take a path to data directory
+  - take a list of predictions (seq_test_pred) rather than reading
+    the predictions from a csv file
+  - return both a dataframe containing the performance
+    on the verb test regardless of genre as well as a dataframe
+    containing the Macro-Averaged performance (over genre)
 """
 def get_performance_VUAverb_test(data_path, seq_test_pred):
     """
@@ -507,6 +510,12 @@ def get_performance_VUAverb_test(data_path, seq_test_pred):
     return macro_avg_performance, overall_performance
 
 
+"""
+Modifying this function to:
+  - take a path to data directory
+  - take a list of predictions (seq_test_pred) rather than reading
+    the predictions from a csv file
+"""
 def get_performance_VUA_test(data_path, seq_test_pred):
     """
     Read the VUA-sequence test data and predictions
