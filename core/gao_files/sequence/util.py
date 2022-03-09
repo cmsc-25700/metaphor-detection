@@ -438,6 +438,9 @@ def get_performance_VUAverb_val(data_path, write=False):
 
 """
 Modifying this function to take a path to data directory
+Also modifying it to return a dataframe containing the performance
+on the verb test regardless of genre
+as well as a dataframe containing the Macro-Averaged performance (over genre)
 """
 def get_performance_VUAverb_test(data_path, seq_test_pred):
     """
@@ -447,7 +450,8 @@ def get_performance_VUAverb_test(data_path, seq_test_pred):
     Prints the performance of LSTM sequence model on VUA-verb test set based on genre
     Prints the performance of LSTM sequence model on VUA-verb test set regardless of genre
 
-    :return: the averaged performance across genre
+    :return: the averaged performance across genre and performance on verb test
+    regardless of genre
     """
     # get the VUA-ver test set
     ID_verbidx_label = []  # ID tuple, verb_idx, label 1 or 0
@@ -489,6 +493,7 @@ def get_performance_VUAverb_test(data_path, seq_test_pred):
         print(genres[i], 'Precision, Recall, F1, Accuracy: ', precision, recall, f1, accuracy)
         avg_performance.append([precision, recall, f1, accuracy])
     avg_performance = np.array(avg_performance)
+    macro_avg_performance = avg_performance.mean(0)
 
     print('Tagging model performance on test-verb: regardless of genre')
     confusion_matrix = confusion_matrix.sum(axis=0)
@@ -496,9 +501,10 @@ def get_performance_VUAverb_test(data_path, seq_test_pred):
     recall = 100 * confusion_matrix[1, 1] / np.sum(confusion_matrix[:, 1])
     f1 = 2 * precision * recall / (precision + recall)
     accuracy = 100 * (confusion_matrix[1, 1] + confusion_matrix[0, 0]) / np.sum(confusion_matrix)
+    overall_performance = np.array([precision, recall, f1, accuracy])
     print('Precision, Recall, F1, Accuracy: ', precision, recall, f1, accuracy)
 
-    return avg_performance.mean(0)
+    return macro_avg_performance, overall_performance
 
 
 def get_performance_VUA_test(data_path, seq_test_pred):
