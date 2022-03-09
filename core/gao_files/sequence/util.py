@@ -140,6 +140,27 @@ def get_word2idx_idx2word(vocab):
     return word2idx, idx2word
 
 
+def get_VUA_POS_summary(dataset, idx2pos):
+    """
+    :param dataset: vua raw data
+    :param idx2pos: dictionary {pos_idx: pos}
+    :reurn: pos_cnts: dictionary {pos: cnt}
+            pos_meta_rate: dictionary {pos: metaphoricity rate}
+    """
+    pos_idx2cnts = {k: [0,0] for k in idx2pos.keys()}
+    for line in dataset:
+        words = line[0].split()
+        labels = line[1]
+        pos_idx = line[2]
+        for i,word in enumerate(words):
+            pos_idx2cnts[pos_idx[i]][0] += 1
+            pos_idx2cnts[pos_idx[i]][1] += labels[i]
+
+    pos_cnts = {idx2pos[tup[0]]:tup[1][0] for tup in pos_idx2cnts.items()}
+    pos_meta_rate = {idx2pos[tup[0]]:tup[1][1] / tup[1][0] for tup in pos_idx2cnts.items()}
+    return pos_cnts, pos_meta_rate
+
+
 def embed_indexed_sequence(sentence, pos_seq, word2idx, glove_embeddings, elmo_embeddings,
                            pos_embeddings=None):
     """
