@@ -159,7 +159,7 @@ def embed_sequence(sequence, verb_idx, word2idx, glove_embeddings, elmo_embeddin
     return result
 
 
-def evaluate(evaluation_dataloader, model, criterion, using_GPU):
+def evaluate(evaluation_dataloader, model, criterion, using_GPU, print_verbose=True):
     """
     Evaluate the model on the given evaluation_dataloader
 
@@ -209,7 +209,8 @@ def evaluate(evaluation_dataloader, model, criterion, using_GPU):
 
     # Set the model back to train mode, which activates dropout again.
     model.train()
-    print(confusion_matrix)
+    if print_verbose: # ci, add argument to optionally print
+        print(confusion_matrix)
     return average_eval_loss, accuracy, precision, recall, met_f1, class_wise_f1
 
 # Make sure to subclass torch.utils.data.Dataset
