@@ -120,7 +120,9 @@ def get_performance_VUAverb_test(data_path, seq_test_pred):
         confusion_matrix[genre_idx][pred][label] += 1
         confusion_matrix_alt[pred, label] += 1
     assert (np.sum(confusion_matrix) == len(seq_test_pred)-1)
+    print("confusion matrix by genre\n")
     print(confusion_matrix)
+    print("\nconfusion matrix all\n")
     print(confusion_matrix_alt)
 
     print('Tagging model performance on test-verb: genre')
@@ -143,6 +145,6 @@ def get_performance_VUAverb_test(data_path, seq_test_pred):
     accuracy = 100 * (confusion_matrix[1, 1] + confusion_matrix[0, 0]) / np.sum(confusion_matrix)
     overall_performance = np.array([precision, recall, f1, accuracy])
     print('Precision, Recall, F1, Accuracy: ', precision, recall, f1, accuracy)
-    print(confusion_matrix)
+    # print(confusion_matrix)
 
     return macro_avg_performance, overall_performance
