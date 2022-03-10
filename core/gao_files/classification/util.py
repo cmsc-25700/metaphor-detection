@@ -9,6 +9,7 @@ import mmap
 from torch.utils.data import Dataset
 import torch.nn as nn
 from torch.autograd import Variable
+import csv # ci added with write_predictions functino
 
 
 # Misc helper functions
@@ -309,3 +310,52 @@ class TextDatasetWithGloveElmoSuffix(Dataset):
         return (torch.stack(batch_padded_example_text),
                 torch.LongTensor(batch_lengths),
                 torch.LongTensor(batch_labels))
+
+
+# christie adapted from sequence/util.write_predictions
+def write_predictions(raw_dataset, evaluation_dataloader, model, using_GPU, rawdata_filename):
+    """
+    Evaluate the model on the given evaluation_dataloader
+
+    :param raw_dataset
+    :param evaluation_dataloader:
+    :param model:
+    :param using_GPU: a boolean
+    :return: a list of
+    """
+    # Set model to eval mode, which turns off dropout.
+    model.eval()
+
+    predictions = []
+    for (example_text, example_lengths, labels) in evaluation_dataloader:
+        eval_text = Variable(example_text, volatile=True)
+        eval_lengths = Variable(example_lengths, volatile=True)
+        eval_labels = Variable(labels, volatile=True)
+        if using_GPU:
+            eval_text = eval_text.cuda()
+            eval_lengths = eval_lengths.cuda()
+            eval_labels = eval_labels.cuda()
+
+        # predicted shape: (batch_size, seq_len, 2)
+        predicted = model(eval_text, eval_lengths)
+        # get 0 or 1 predictions
+        # predicted_labels: (batch_size, seq_len)
+        _, predicted_labels = torch.max(predicted.data, 2)
+        predictions.extend(predicted_labels)
+
+    # Set the model back to train mode, which activates dropout again.
+    model.train()
+    assert (len(predictions) == len(raw_dataset))
+
+    # read original data
+    data = []
+    with open(rawdata_filename, encoding='latin-1') as f:
+        lines = csv.reader(f)
+        for line in lines:
+            data.append(line)
+
+    # append predictions to the original data
+    data[0].append('prediction')
+    for i in range(len(predictions)):
+        data[i + 1].append(predictions[i])
+    return data
