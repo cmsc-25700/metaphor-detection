@@ -309,7 +309,8 @@ def get_batch_predictions(predictions, pos_seqs):
 """
 CF: Modifying this file to (optionally) write predictions to a text file
 """
-def write_predictions(raw_dataset, evaluation_dataloader, model, using_GPU, rawdata_filename):
+def write_predictions(raw_dataset, evaluation_dataloader, model, using_GPU,
+                      rawdata_filename, write_out_preds=False, pred_filename=None):
     """
     Evaluate the model on the given evaluation_dataloader
 
@@ -317,6 +318,8 @@ def write_predictions(raw_dataset, evaluation_dataloader, model, using_GPU, rawd
     :param evaluation_dataloader:
     :param model:
     :param using_GPU: a boolean
+    :param write_out_preds: a boolean
+    :param pred_filename: str: filename to write predictions to
     :return: a list of
     """
     # Set model to eval mode, which turns off dropout.
@@ -349,8 +352,11 @@ def write_predictions(raw_dataset, evaluation_dataloader, model, using_GPU, rawd
     for line in predictions:
         pred_lst.append([int(pred) for pred in line])
 
-    print(f"Length of pred_lst:{len(pred_lst)}")
-    print(pred_lst[:2])
+    with open('predictions/' + pred_filename, 'w') as f:
+        for lst in pred_lst:
+            for item in lst:
+                f.write("%s " % item)
+            f.write("\n")
 
     # read original data
     data = []
