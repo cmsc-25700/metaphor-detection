@@ -349,7 +349,7 @@ def write_predictions(raw_dataset, evaluation_dataloader, model, using_GPU, rawd
     for line in predictions:
         pred_lst.append([int(pred) for pred in line])
 
-    print(f"Shape of pred_lst:{pred_lst.shape}")
+    print(f"Length of pred_lst:{len(pred_lst)}")
     print(pred_lst[:2])
 
     # read original data
