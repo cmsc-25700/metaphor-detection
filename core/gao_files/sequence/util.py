@@ -352,11 +352,13 @@ def write_predictions(raw_dataset, evaluation_dataloader, model, using_GPU,
     for line in predictions:
         pred_lst.append([int(pred) for pred in line])
 
-    with open('predictions/' + pred_filename, 'w') as f:
-        for lst in pred_lst:
-            for item in lst:
-                f.write("%s " % item)
-            f.write("\n")
+    #optionally write predictions to file
+    if write_out_preds:
+        with open('predictions/' + pred_filename, 'w') as f:
+            for lst in pred_lst:
+                for item in lst:
+                    f.write("%s " % item)
+                f.write("\n")
 
     # read original data
     data = []
