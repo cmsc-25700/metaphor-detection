@@ -1,5 +1,5 @@
 """
-Simple Utility Functions for error analysis
+Utility Functions for error analysis
 """
 import pandas as pd
 import os
@@ -9,12 +9,8 @@ from core.data.gao_data import ExperimentData
 
 PREDS_DIRECTORY = "predictions/"
 
-### INPUT
+### path for constructing ExperimentData object
 input_data_path = os.path.join("resources", "metaphor-in-context", "data")
-
-gao_data = ExperimentData(input_data_path)
-gao_data.read_vua_seq_data()
-
 
 
 def check_for_fp(row):
@@ -69,17 +65,24 @@ def display_errors(row):
           """)
 
 
-
 def construct_vua_err_analydis_df(preds_filename, gao_data_obj):
     """
     Function to read predictions .txt file in and merge it with
-    labels and original sentence, and add information about errors
+    labels and original sentence, and information about errors
+    into a pandas dataframe
 
     Inputs
         preds_filename: str: name of the file containing the predictions
         gao_data_obj: str: name of the ExperimentData attr corresponding
                     to predictions data (e.g.'vua_seq_formatted_test')
+
+    Outputs
+        err_analysis_df: DataFrame: df with the following columns:
+            ['Text', 'index', 'true_labels', 'pred_labels', 'correctly_labeled',
+                'false_pos', 'false_neg']
     """
+    gao_data = ExperimentData(input_data_path)
+    gao_data.read_vua_seq_data()
     test_pred_labels = [] 
 
     f = open(PREDS_DIRECTORY + preds_filename, "r")
@@ -107,7 +110,5 @@ def construct_vua_err_analydis_df(preds_filename, gao_data_obj):
     err_analysis_df["correctly_labeled"] = err_analysis_df['true_labels'] == err_analysis_df['pred_labels']
     err_analysis_df['false_pos'] = err_analysis_df.apply(check_for_fp, axis = 1)
     err_analysis_df['false_neg'] = err_analysis_df.apply(check_for_fn, axis = 1)
-
-    
 
     return err_analysis_df
