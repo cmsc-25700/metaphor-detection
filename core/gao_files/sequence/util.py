@@ -306,7 +306,9 @@ def get_batch_predictions(predictions, pos_seqs):
         pred_lst.append(cur_pred_lst)
     return pred_lst
 
-
+"""
+CF: Modifying this file to (optionally) write predictions to a text file
+"""
 def write_predictions(raw_dataset, evaluation_dataloader, model, using_GPU, rawdata_filename):
     """
     Evaluate the model on the given evaluation_dataloader
@@ -340,6 +342,15 @@ def write_predictions(raw_dataset, evaluation_dataloader, model, using_GPU, rawd
     # Set the model back to train mode, which activates dropout again.
     model.train()
     assert (len(predictions) == len(raw_dataset))
+
+    # convert predictions from list of lists of tensors to
+    # list of lists of ints
+    pred_lst = []
+    for line in predictions:
+        pred_lst.append([int(pred) for pred in line])
+
+    print(f"Shape of pred_lst:{pred_lst.shape}")
+    print(pred_lst[:2])
 
     # read original data
     data = []
