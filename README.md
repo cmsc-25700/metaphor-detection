@@ -1,7 +1,7 @@
 # Metaphor Detection
 ![](images/gao_readme.png)
 
-###NLP Group Research Project to replicate <a href="https://arxiv.org/pdf/1808.09653.pdf" target="_blank">Neural Metaphor Detection in Context</a>
+### NLP Group Research Project to replicate <a href="https://arxiv.org/pdf/1808.09653.pdf" target="_blank">Neural Metaphor Detection in Context</a>
 
 We use the **biLSTM** implemented by Gao et. al. to perform metaphor detection on MOH-X, TroFi, and VUA datasets.
 
