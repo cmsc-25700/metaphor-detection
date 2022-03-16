@@ -86,7 +86,7 @@ def get_sequencing_data_summary(data_dict):
     return summary
 
 
-def get_vua_seq_bert_POS_performance()
+def get_vua_seq_bert_POS_performance():
     """
     For getting the POS performance breakdown
     of the bert predictions for the vua
