@@ -91,6 +91,8 @@ def get_vua_seq_bert_POS_performance()
     For getting the POS performance breakdown
     of the bert predictions for the vua
     sequence labeling task
+
+    returns a dataframe with the POS performance breakdown
     """
     gao_data = ExperimentData(input_data_path)
     gao_data.read_vua_seq_data()
@@ -144,4 +146,17 @@ def get_vua_seq_bert_POS_performance()
                     raise ValueError('Predicted label neither 1 or 0')
             else:
                 raise ValueError('True label neither 1 or 0')
+
+    dict_for_df = {pos:[pos_performance_dict[pos][classification] for \
+                        classification in classifications] for pos in pos_set}
+
+    pos_df = pd.DataFrame(dict_for_df, index=classifications).T
+
+    pos_df['Precision'] = pos_df['TP'] / (pos_df['TP'] + pos_df['FP'])
+    pos_df['Recall'] = pos_df['TP'] / (pos_df['TP'] + pos_df['FN'])
+    pos_df['F1'] = pos_df['TP'] / (pos_df['TP'] + 0.5 * (pos_df['FP'] + pos_df['FN']))
+
+    return pos_df
+
+    
             
