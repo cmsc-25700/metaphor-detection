@@ -3,6 +3,12 @@
 
 ### NLP Group Research Project to replicate <a href="https://arxiv.org/pdf/1808.09653.pdf" target="_blank">Neural Metaphor Detection in Context</a>
 
+### Authors
+
+* Christie Ibaraki
+* Cole Frank
+* Deniz Tokmakoğlu
+
 We use the **biLSTM** implemented by Gao et. al. to perform metaphor detection on MOH-X, TroFi, and VUA datasets.
 
 Using the same data, we also adapt a BERT model from Gong et. al. Code for that model can be found [here](https://github.com/cmsc-25700/gong-metaphor-detection)
